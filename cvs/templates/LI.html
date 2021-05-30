@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br><br>
+<h5>List of Research Assistant</h5>
+
+<div style="font-size: 20px;font-weight:200px;text-align: center;">
+    <ol style="text-decoration: seashell;text-align: center;">
+        {% for i in rank %}
+        {% if i[0] > 0.25 %}
+        <li style="color:lightblue;text-align: center;">{{ name[i[1]-1] }}</li>
+        {% endif %}
+        {% endfor %}
+        </ol>
+<br>
+<br>        
+</div>
+
+<br>
+<br>
+<div style="font-size: 20px;font-weight: 20px;text-align: center;">
+
+    <a href="/">Main Menu</a>
+    </div>
+    
+
+{% endblock %}
