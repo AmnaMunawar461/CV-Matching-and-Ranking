@@ -24,6 +24,19 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = "project"
 app.config['UPLOAD_FOLDER'] = 'C:/Users/HOME/CV/csv'
 app.config['MAX_CONTENT_PATH'] = 1200
+
+from flask import send_from_directory
+
+
+
+@app.route('/uploads/<path:filename>', methods=['GET', 'POST'])
+def download(filename):
+    print(app.root_path)
+    full_path = os.path.join(app.root_path, app.config['UPLOAD_FOLDER'])
+    print(full_path)
+    return send_from_directory(full_path, filename)
+
+
 ## REQUIRED FUNCTIONS
 @app.route('/RA', methods = ['GET', 'POST'])
 def RA():
@@ -60,7 +73,7 @@ def RA():
             line = openfile.read()
             for v in range(len(vocab_1)):
                 if vocab_1[v] in line:
-                        find1[i-1][v]=1
+                        find1[i-1][v]=find1[i-1][v]+1
                 else:
                         find1[i-1][v]=0
     q1=[]
@@ -77,13 +90,27 @@ def RA():
         c=0
         for i in range(len(vocab_1)):
                 c+= q1[i]*find1[j][i]
-        cosine = c / float((sum(q1)*sum(find1[j]))**0.5)
-        print("similarity: for document %d are ",j, cosine)
+        cosine = round((c / float((sum(q1)*sum(find1[j]))**0.5)),3)
+
+        #print("similarity: for document %d are ",j, cosine)
         rank1.append((cosine,j+1))
     
     rank1.sort(key = lambda x: x[0],reverse=True)
     global name
-    return render_template("RA.html", rank=rank1,name=name) 
+    w=[]
+    new_name=[]
+    for i in range(1,24):
+        li,find=parse_skills(str(i))
+        csv_features(str(i),li,find)
+        r, s = classification()
+        if s == 2 or s== 0 :
+            w.append(i)
+    for i in range(23):
+        if rank1[i][1] in set(w):
+            new_name.append((rank1[i][0],rank1[i][1]))
+    #print(new_name)     
+    length_new_name=len(new_name)       
+    return render_template("RA.html", rank=new_name,name=name,length=length_new_name) 
 
 
 
@@ -170,7 +197,7 @@ def lab_instructor():
             line = openfile.read()
             for v in range(len(vocab_)):
                 if vocab_[v] in line:
-                    find[i-1][v]=1
+                    find[i-1][v]=find[i-1][v]+1
                 else:
                     find[i-1][v]=0
     q=[]
@@ -188,12 +215,23 @@ def lab_instructor():
         for i in range(len(vocab_)):
             c+= q[i]*find[j][i]
         cosine = c / float((sum(q)*sum(find[j]))**0.5)
-        print("similarity for document {0:d} are {1:f}".format(j, cosine))
-        rank.append((cosine,j+1))
+        #print("similarity for document {0:d} are {1:f}".format(j, cosine))
+        rank.append((round(cosine,3),j+1))
     rank.sort(key = lambda x: x[0],reverse=True)
-    
-
-    return render_template('LI.html', rank=rank,name=name)
+    w=[]
+    new_name=[]
+    for i in range(1,24):
+        li,find=parse_skills(str(i))
+        csv_features(str(i),li,find)
+        r, s = classification()
+        if s == 2 or s== 0 :
+            w.append(i)
+    for i in range(23):
+        if rank[i][1] in set(w):
+            new_name.append((rank[i][0],rank[i][1]))
+    #print(new_name)     
+    length_new_name=len(new_name)       
+    return render_template("LI.html", rank=new_name,name=name,length=length_new_name) 
 
 
 if __name__ == "__main__":

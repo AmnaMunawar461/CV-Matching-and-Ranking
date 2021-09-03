@@ -3,6 +3,7 @@
 {% block content %}
 <br>
 <br>
+
 <style>
     h5{
         font-weight: bold;
@@ -20,10 +21,24 @@
         text-decoration: cyan;
         color:goldenrod;   
     }
+    a{
+        text-align: center;
+    }
 </style>
 <!-- <div style="font-weight: bold;padding: 10px;font-size: 30px;text-align: center; text-decoration: violet;"> -->
 <h5>Classifying Classes</h5>
 <br><br>
 <p>{{ word }} :{{ word2 }}</p>
-<!-- </div> -->
+
+<br>
+<div style="font-size: 27px;font-weight: 20px;text-align: center;text-decoration: none;">
+    <br>
+    <a href="{{ url_for('classify') }}" style="text-decoration:none;font-weight: 600;">BACK</a>
+</div>
+
+<br>        
+
+    
+
+
 {% endblock %}

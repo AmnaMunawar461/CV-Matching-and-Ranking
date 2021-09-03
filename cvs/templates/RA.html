@@ -2,23 +2,58 @@
 
 {% block content %}
 <br><br>
-<h5>List of Research Assistant</h5>
+
+<h5 style="text-align: center;font-weight: bold;font-size: 26px;">LIST OF RESEARCH ASSISTANT</h5>
+<br>
 <div style="font-size: 20px;font-weight:200px;text-align: center;">
 <ol style="text-decoration: seashell;text-align: center;">
-{% for i in rank %}
-{% if i[0] > 0.25 %}
-<li style="color:lightblue;text-align: center;">{{ name[i[1]-1] }}</li>
+<div class="row">
+    <div class="col" style="width: 25%;">
+    <h5 style="font: caption;">Name</h5>
+    </div>
+    <div class="col" style="width: 25%;float: right;">
+        <h5 style="font: caption;">Similarity Ratio</h4>
+    </div>
+    <div class="col" style="width: 25%;float: right;">
+            <h5 style="font: caption;">Resume No.</h4>
+    </div>
+        
+                
+</div>
+{% for i in range( length) %}
+{% if rank[i][0] > 0.29 %}
+
+<div class="row">
+    <div class="col" style="width: 25%;">
+            <li style="color:lightblue;text-align: center;">{{ name[rank[i][1]-1] }}</li>
+    </div>
+    <div class="col" style="width: 25%;float: right;" >
+    <p style="color:lightblue;text-align: center;">{{ rank[i][0] }}</p>
+    </div>
+    <div class="col" style="width: 25%;float: right;" >
+        <p style="color:lightblue;text-align: center;">{{ rank[i][1] }}</p>
+    </div>
+    <div class="col" style="width: 25%;float: right;" >
+        <a href="C:\Users\HOME\CV\cvs\ {{ rank[i][1] }}.txt" download="{{ rank[i][1] }}.txt">{{ rank[i][1] }}</a>
+    </div>
+</div>
+<br>
 {% endif %}
 {% endfor %}
 </ol>
 <br>
 <br>
+<div style="font-size: 27px;font-weight: 20px;text-align: center;text-decoration: none;">
+    <br>
+    <a href="{{ url_for('rank1') }}" style="text-decoration:none;font-weight: 600;">BACK</a>
 </div>
 
-<div style="font-size: 20px;font-weight: 20px;text-align: center;">
-<br><br>
-<a href="/">Main Menu</a>
+<br>        
+
+
+<br>
 </div>
+
 {% endblock %}
 
 

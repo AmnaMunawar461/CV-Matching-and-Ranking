@@ -136,12 +136,13 @@ def classification():
     filename = 'C:/Users/HOME/CV/finalized_model.sav'
     loaded_model = pickle.load(open(filename, 'rb'))
     ynew = loaded_model.predict(x)
+    print(ynew)
 # show the inputs and predicted probabilities
-    if ynew == 1:
+    if ynew[0] == 1:
         return 'Class is Lab Instructor',ynew[0]
-    elif ynew == 2:
+    elif ynew[0] == 2:
         return 'Class is Research Assistant',ynew[0]
-    else:
+    elif ynew[0] == 0:
         return 'Class is Research Assistant -lab instructor',ynew[0]
     
 

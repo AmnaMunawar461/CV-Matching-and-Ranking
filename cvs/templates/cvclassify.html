@@ -3,20 +3,24 @@
 {% block content %}
 <br>
 <br>
+
 <div style="text-align: center;">
 
-<form action="/result.html" method="POST" enctype="multipart/form-data" style="text-align: center;">
+<form action="/result.html" id='theform' method="POST" onSubmit="return formValidation()" enctype="multipart/form-data" style="text-align: center;">
 
 	<label for="files" style="font-size: 20px;">SELECT FILE:</label><br><br>
 	<br>
-	<div style="text-align-last: center;padding-left:530px ;"><input type="file" id="files" name="files" accept=".txt" onsubmit="return formvalidation()"/></div><br><br>
+	<div style="text-align-last: center;padding-left:530px ;"><input type="file" id="files" name="files" data-max-size="2" accept=".txt" multiple="false" onchange="OnFileValidation()"/></div><br><br>
+    
 	<br>
-	<input type="submit" value="submit" style="text-decoration: red;" class="btn btn-primary btn-lg">
+	<input type="submit" value="submit" id="theform" onclick="document.getElementById('theform').disabled = true;document.getElementById('theform').style.opacity='0.5';" style="text-decoration: red;" onsubmit="return formvalidation()" class="btn btn-primary btn-lg">
+    
 </form>
 
 <script>
 
-function formvalidation()
+
+function formValidation()
 {
     if(document.getElementById("files").value==""||document.getElementById("files").value==null)
     {
@@ -24,8 +28,33 @@ function formvalidation()
     return false;
     }
     else
+        alert('In Process,Takes some moments')
         return true;
     }
+
+const input = document.getElementById('files')
+
+input.addEventListener('change', (event) => {
+  const target = event.target
+  if (target.files && target.files[0]) {
+
+      /*Maximum allowed size in bytes
+        5MB Example
+        Change first operand(multiplier) for your needs*/
+      const maxAllowedSize = 10 * 1024;
+      const minAllowedSize = 2 * 1024;
+      if (target.files[0].size > maxAllowedSize) {
+      window.alert("file size shouldn't be greater than 10kb");
+        target.value = ''
+      }
+      else if (target.files[0].size < minAllowedSize) {
+      window.alert("file size shouldn't be less than 2kb");
+        target.value = ''
+      }
+  }
+})
+    
+
 
 </script>
 </div>

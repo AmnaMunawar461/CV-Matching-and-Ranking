@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br>
+<br>
+<div style="text-align: center;">
+
+<form action="/result.html" method="POST" enctype="multipart/form-data" style="text-align: center;">
+
+	<label for="files" style="font-size: 20px;">SELECT FILE:</label><br><br>
+	<br>
+	<div style="text-align-last: center;padding-left:530px ;"><input type="file" id="files" name="files" accept=".txt" onsubmit="return formvalidation()"/></div><br><br>
+	<br>
+	<input type="submit" value="submit" style="text-decoration: red;" class="btn btn-primary btn-lg">
+</form>
+
+<script>
+
+function formvalidation()
+{
+    if(document.getElementById("files").value==""||document.getElementById("files").value==null)
+    {
+        alert("no file selected");
+    return false;
+    }
+    else
+        return true;
+    }
+
+</script>
+</div>
+
+{% endblock %}
